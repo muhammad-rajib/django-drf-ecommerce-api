@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
+from base.serializers import UserSerializer
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -21,4 +23,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['GET'])
 def getUserProfile(request):
-    return Response("Hello User")
+    user = request.user
+    serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
