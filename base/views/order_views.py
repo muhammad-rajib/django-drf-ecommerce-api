@@ -35,7 +35,7 @@ def addOrderItems(request):
         # Create shipping address
         shipping = ShippingAddress.objects.create(
             order       = order,
-            addresss    = data['shippingAddress']['address'],
+            address    = data['shippingAddress']['address'],
             city        = data['shippingAddress']['city'],
             postalCode  = data['shippingAddress']['postalCode'],
             country     = data['shippingAddress']['country']
@@ -43,7 +43,7 @@ def addOrderItems(request):
 
         # Create Order Items
         for itm in orderItems:
-            product = Product.objects.get(_id=i['product'])
+            product = Product.objects.get(_id=itm['product'])
 
             item = OrderItem.objects.create(
                 product = product,
@@ -51,7 +51,7 @@ def addOrderItems(request):
                 name    = product.name,
                 qty     = itm['qty'],
                 price   = itm['price'],
-                image   = product.img.url,
+                image   = product.image.url,
             )
 
             # update stock
