@@ -42,15 +42,16 @@ def createProduct(reqeust):
 
 
 @api_view(['PUT'])
-@permission_classes([IsAdminUser()])
+@permission_classes([IsAdminUser])
 def updateProduct(request, pk):
+    print("hello")
     data = request.data
     product = Product.objects.get(_id=pk)
 
     product.name = data['name']
     product.price = data['price']
     product.brand = data['brand']
-    product.countInStock = data['countStock']
+    product.countInStock = data['countInStock']
     product.category = data['category']
     product.description = data['description']
 
@@ -67,3 +68,16 @@ def deleteProduct(request, pk):
     product.delete()
     return Response("Product Deleted")
 
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def uploadImage(reqeust):
+
+    data = reqeust.data
+    product_id = data['product_id']
+    product = Product.objects.get(_id=product_id)
+
+    product.image = reqeust.FILES.get('image')
+    product.save()
+
+    return Response("Image was uploaded")    
