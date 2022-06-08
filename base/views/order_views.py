@@ -112,7 +112,7 @@ def getOrders(request):
 
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
-def updateOrderToDelivered(request):
+def updateOrderToDelivered(request, pk):
 
     order = Order.objects.get(_id=pk)
 
