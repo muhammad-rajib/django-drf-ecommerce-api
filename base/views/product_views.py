@@ -11,8 +11,12 @@ from base.serializers import ProductSerializer
 # Create your views here.
 @api_view(['GET'])
 def getProducts(request):
-    products = Product.objects.all()
-    # Serialized --> Model Objects to Json
+    query = request.query_params.get('keyword')
+    
+    if query == "null":
+        query = ''
+
+    products = Product.objects.filter(name__icontains=query).order_by('-createdAt')
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
